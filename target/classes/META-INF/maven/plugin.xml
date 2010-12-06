@@ -9,16 +9,15 @@
   <inheritedByDefault>true</inheritedByDefault>
   <mojos>
     <mojo>
-      <goal>jar</goal>
-      <description>Goal for creating a jar with just the Jython source files and possibly a main class and __run__.py built into it.</description>
+      <goal>run</goal>
+      <description>Goal for running the project</description>
       <requiresDirectInvocation>false</requiresDirectInvocation>
       <requiresProject>true</requiresProject>
       <requiresReports>false</requiresReports>
       <aggregator>false</aggregator>
       <requiresOnline>false</requiresOnline>
       <inheritedByDefault>true</inheritedByDefault>
-      <executePhase>package</executePhase>
-      <implementation>org.curious.hiss.JythonJarMojo</implementation>
+      <implementation>org.curious.hiss.JythonRunMojo</implementation>
       <language>java</language>
       <instantiationStrategy>per-lookup</instantiationStrategy>
       <executionStrategy>once-per-session</executionStrategy>
@@ -92,15 +91,16 @@
       </configuration>
     </mojo>
     <mojo>
-      <goal>run</goal>
-      <description>Goal for running the project</description>
+      <goal>jar</goal>
+      <description>Goal for creating a jar with just the Jython source files and possibly a main class and __run__.py built into it.</description>
       <requiresDirectInvocation>false</requiresDirectInvocation>
       <requiresProject>true</requiresProject>
       <requiresReports>false</requiresReports>
       <aggregator>false</aggregator>
       <requiresOnline>false</requiresOnline>
       <inheritedByDefault>true</inheritedByDefault>
-      <implementation>org.curious.hiss.JythonRunMojo</implementation>
+      <executePhase>package</executePhase>
+      <implementation>org.curious.hiss.JythonJarMojo</implementation>
       <language>java</language>
       <instantiationStrategy>per-lookup</instantiationStrategy>
       <executionStrategy>once-per-session</executionStrategy>
