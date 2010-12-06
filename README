@@ -1,0 +1,61 @@
+This is Hiss, the Jython plugin for maven.  It comes with the following goals.
+
+hiss:run            Runs the Jython project.
+hiss:jar            Creates a jar file that contains the Jython source and Java classes, and a __run__.py and Main.class file if pythonMain is defined.  Main.class is a class with a main
+                    method that creates a PythonInterpreter to interpert pythonMain.  And __root__.py simply imports pythonMain
+hiss:uberjar        Same as hiss:jar but also includes Jython and a copy of jythonPath, thus is should be possible to run with just "java -jar example-1.0-SNAPSHOT.jar".
+
+It also defines the following properties.
+
+pythonPath          Defines python.path.
+pythonMain          A module name, defines the main module.
+pythonArgs          Defines the contents of sys.argv.
+
+Example pom.xml:
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.curious</groupId>
+  <artifactId>example</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.curious</groupId>
+        <artifactId>hiss</artifactId>
+        <version>1.0.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <pythonPath>C:/jython/Lib</pythonPath>
+          <pythonMain>org.curious.example.main</pythonMain>
+          <pythonArgs>
+            <param>hello</param>
+            <param>world</param>
+          </pythonArgs>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>org.python</groupId>
+      <artifactId>jython</artifactId>
+      <version>2.5.0</version>
+    </dependency>
+  </dependencies>
+</project>
+
+Example src directory:
+
+src
+ main
+  jython
+   org
+    __init__.py
+    curious
+      __init__.py
+      example
+        __init__.py
+        main.py
