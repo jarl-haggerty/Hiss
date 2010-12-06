@@ -2,10 +2,12 @@ This is Hiss, the Jython plugin for maven.  It comes with the following goals.
 
 hiss:run            Runs the Jython project.
 hiss:jar            Creates a jar file that contains the Jython source and Java classes, 
-                    and a __run__.py and Main.class file if pythonMain is defined.  Main.class is a class with a main
-                    method that creates a PythonInterpreter to interpert pythonMain.  And __root__.py simply imports pythonMain
-hiss:uberjar        Same as hiss:jar but also includes Jython and a copy of jythonPath, thus is should be 
-                    possible to run with just "java -jar example-1.0-SNAPSHOT.jar".
+                    and a __run__.py and Main.class file if pythonMain is defined.  
+                    Main.class is a class with a main method that creates a PythonInterpreter 
+                    to interpert pythonMain.  And __root__.py simply imports pythonMain
+hiss:uberjar        Same as hiss:jar but also includes Jython and a copy of jythonPath, 
+                    thus is should be possible to run with just "java -jar 
+                    example-1.0-SNAPSHOT.jar".
 
 It also defines the following properties.
 
