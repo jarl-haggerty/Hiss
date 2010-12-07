@@ -144,7 +144,7 @@ public abstract class JythonAbstractMojo extends AbstractMojo{
             mainSource += "    org.python.util.PythonInterpreter.initialize(System.getProperties(), properties, args);\n";
 
             mainSource += "    org.python.util.PythonInterpreter interpreter = new org.python.util.PythonInterpreter();\n";
-            mainSource += "    interpreter.setIn(System.in);\n";
+            //mainSource += "    interpreter.setIn(System.in);\n";
             mainSource += "    interpreter.setOut(System.out);\n";
             mainSource += "    interpreter.setOut(System.err);\n";
             mainSource += "    interpreter.execfile(ClassLoader.getSystemResourceAsStream(\"" + pythonMain.replace(".", "/") + ".py\"));\n";

@@ -33,7 +33,8 @@ import java.io.FileWriter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import java.io.IOException;
 
 import org.python.util.PythonInterpreter;
@@ -65,17 +66,23 @@ public class JythonTestMojo extends JythonAbstractMojo{
         interpreter.setOut(System.out);
         interpreter.setErr(System.err);
 
-        runTests(new File(baseDirectory + "/src/test/jython/" + groupId.replace(".", "/") + "/" + artifactId + "/test"));
+        runTests(new File(baseDirectory + "/src/test/jython/" + groupId.replace(".", "/") + "/" + artifactId + "/test"), interpreter);
     }
 
-    public void runTests(File directory){
+    public void runTests(File directory, PythonInterpreter interpreter){
         for(File file : directory.listFiles()){
             if(file.isDirectory()){
                 runTests(file);
             }else if(file.getName().substring(file.getName().length()-3).equals(".py")){
                 System.out.println("Running tests in " + file.getAbsolutePath().replace(baseDirectory + "/src/test/jython/", "").replace(".py", "").replace(File.separator, ""));
                 interpreter.execfile(file.getAbsolutePath());
-                Matcher matcher = Pattern.compile("def\\s+(test.+\\(\\)):[\r|\n|\r\n]");
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                String source = "", line;
+                while((line = reader.readLine()) != null){
+                    source += line + "\n";
+                }
+                reader.close();
+                Matcher matcher = Pattern.compile("def\\s+(test.+\\(\\)):[\r|\n|\r\n]").matcher(source);
                 while(matcher.find()){
                     String input = "";
                     input += "try:\n";
