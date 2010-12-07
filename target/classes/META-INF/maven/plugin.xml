@@ -10,16 +10,16 @@
   <inheritedByDefault>true</inheritedByDefault>
   <mojos>
     <mojo>
-      <goal>test</goal>
-      <description>Goal for creating a jar with just the Jython source files and possibly a main class and __run__.py built into it.</description>
+      <goal>uberjar</goal>
+      <description>Goal for creating a jar with the pythonPath and jython built into it.</description>
       <requiresDirectInvocation>false</requiresDirectInvocation>
       <requiresProject>true</requiresProject>
       <requiresReports>false</requiresReports>
       <aggregator>false</aggregator>
       <requiresOnline>false</requiresOnline>
       <inheritedByDefault>true</inheritedByDefault>
-      <executePhase>test</executePhase>
-      <implementation>org.curious.hiss.JythonTestMojo</implementation>
+      <executePhase>package</executePhase>
+      <implementation>org.curious.hiss.JythonUberJarMojo</implementation>
       <language>java</language>
       <instantiationStrategy>per-lookup</instantiationStrategy>
       <executionStrategy>once-per-session</executionStrategy>
@@ -93,8 +93,8 @@
       </configuration>
     </mojo>
     <mojo>
-      <goal>uberjar</goal>
-      <description>Goal for creating a jar with the pythonPath and jython built into it.</description>
+      <goal>jar</goal>
+      <description>Goal for creating a jar with just the Jython source files and possibly a main class and __run__.py built into it.</description>
       <requiresDirectInvocation>false</requiresDirectInvocation>
       <requiresProject>true</requiresProject>
       <requiresReports>false</requiresReports>
@@ -102,7 +102,7 @@
       <requiresOnline>false</requiresOnline>
       <inheritedByDefault>true</inheritedByDefault>
       <executePhase>package</executePhase>
-      <implementation>org.curious.hiss.JythonUberJarMojo</implementation>
+      <implementation>org.curious.hiss.JythonJarMojo</implementation>
       <language>java</language>
       <instantiationStrategy>per-lookup</instantiationStrategy>
       <executionStrategy>once-per-session</executionStrategy>
@@ -258,16 +258,15 @@
       </configuration>
     </mojo>
     <mojo>
-      <goal>jar</goal>
-      <description>Goal for creating a jar with just the Jython source files and possibly a main class and __run__.py built into it.</description>
+      <goal>test</goal>
+      <description>Goal for executing tests written in Jython.</description>
       <requiresDirectInvocation>false</requiresDirectInvocation>
       <requiresProject>true</requiresProject>
       <requiresReports>false</requiresReports>
       <aggregator>false</aggregator>
       <requiresOnline>false</requiresOnline>
       <inheritedByDefault>true</inheritedByDefault>
-      <executePhase>package</executePhase>
-      <implementation>org.curious.hiss.JythonJarMojo</implementation>
+      <implementation>org.curious.hiss.JythonTestMojo</implementation>
       <language>java</language>
       <instantiationStrategy>per-lookup</instantiationStrategy>
       <executionStrategy>once-per-session</executionStrategy>

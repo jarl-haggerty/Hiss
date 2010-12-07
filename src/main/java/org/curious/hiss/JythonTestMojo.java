@@ -35,15 +35,17 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.FileNotFoundException;
 
 import org.python.util.PythonInterpreter;
 
 import org.apache.maven.artifact.Artifact;
 
 /**
- * Goal for creating a jar with just the Jython source files and possibly a main class and __run__.py built into it.
- * @execute phase = "test"
+ * Goal for executing tests written in Jython.
  * @goal test
  */
 public class JythonTestMojo extends JythonAbstractMojo{ 
@@ -66,30 +68,36 @@ public class JythonTestMojo extends JythonAbstractMojo{
         interpreter.setOut(System.out);
         interpreter.setErr(System.err);
 
-        runTests(new File(baseDirectory + "/src/test/jython/" + groupId.replace(".", "/") + "/" + artifactId + "/test"), interpreter);
+        runTests(new File(baseDirectory + "/src/test/jython/" + groupId.replace(".", "/") + "/" + artifactId), interpreter);
     }
 
     public void runTests(File directory, PythonInterpreter interpreter){
         for(File file : directory.listFiles()){
             if(file.isDirectory()){
-                runTests(file);
+                runTests(file, interpreter);
             }else if(file.getName().substring(file.getName().length()-3).equals(".py")){
-                System.out.println("Running tests in " + file.getAbsolutePath().replace(baseDirectory + "/src/test/jython/", "").replace(".py", "").replace(File.separator, ""));
-                interpreter.execfile(file.getAbsolutePath());
-                BufferedReader reader = new BufferedReader(new FileReader(file));
-                String source = "", line;
-                while((line = reader.readLine()) != null){
-                    source += line + "\n";
-                }
-                reader.close();
-                Matcher matcher = Pattern.compile("def\\s+(test.+\\(\\)):[\r|\n|\r\n]").matcher(source);
-                while(matcher.find()){
-                    String input = "";
-                    input += "try:\n";
-                    input += "    " + matcher.group() + "\n";
-                    input += "except AssertionError:\n";
-                    input += "    print " + matcher.group() + " failed\n";
-                    interpreter.exec(input);
+                try{
+                    System.out.println("\nRunning tests in " + file.getAbsolutePath().replace(baseDirectory + "/src/test/jython/", "").replace(".py", "").replace(File.separator, ".") + "\n");
+                    BufferedReader reader = new BufferedReader(new FileReader(file));
+                    String source = "", line;
+                    while((line = reader.readLine()) != null){
+                        source += line + "\n";
+                    }
+                    reader.close();
+                    interpreter.exec(source);
+                    Matcher matcher = Pattern.compile("def\\s+(test.+\\(\\)):[\r|\n|\r\n]").matcher(source);
+                    while(matcher.find()){
+                        String input = "";
+                        input += "try:\n";
+                        input += "    " + matcher.group(1) + "\n";
+                        input += "except AssertionError:\n";
+                        input += "    print \"    " + matcher.group(1).replace("()", "") + " failed\\n\"\n";
+                        interpreter.exec(input);
+                    }
+                }catch(FileNotFoundException e){
+                    e.printStackTrace();
+                }catch(IOException e){
+                    e.printStackTrace();
                 }
             }
         }
