@@ -25,33 +25,34 @@ import org.apache.maven.plugin.MojoFailureException;
 import java.io.File;
 import java.util.List;
 import java.util.Properties;
+import java.util.Iterator;
+import java.util.List;
+import java.util.LinkedList;
+import java.io.InputStream;
+import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+
+import java.io.IOException;
 
 import org.python.util.PythonInterpreter;
 
+import org.apache.maven.artifact.Artifact;
+
 /**
- * Goal for running the project
- * @goal run
+ * Goal for creating a jar with just the Jython source files and possibly a main class and __run__.py built into it.
+ * @execute phase = "test"
+ * @goal test
  */
-public class JythonRunMojo extends JythonAbstractMojo{ 
-    public void execute() throws MojoExecutionException, MojoFailureException{ 
+public class JythonTestMojo extends JythonAbstractMojo{ 
+    public void execute() throws MojoExecutionException, MojoFailureException{
         Properties properties = new Properties();
 
         if(pythonPath == null){
             properties.setProperty("python.path", baseDirectory + "/src/main/jython");
         }else{
             properties.setProperty("python.path", baseDirectory + "/src/main/jython" + File.pathSeparator + pythonPath);
-        }
-
-        String mainFile;
-        if(pythonMain == null){
-            mainFile = baseDirectory + "/src/main/jython/" + groupId.replace(".", "/") + "/" + artifactId + "/main.py";
-            System.out.println("Python main was not specified.  Infering pythonMain as " + groupId + "." + artifactId + ".main");
-        }else{
-            mainFile = baseDirectory + "/src/main/jython/" + pythonMain.replace(".", "/") + ".py";
-        }
-
-        if(!new File(mainFile).exists()){
-            throw new MojoFailureException("No module named " + pythonMain);
         }
             
         if(pythonArgs == null){
@@ -63,6 +64,27 @@ public class JythonRunMojo extends JythonAbstractMojo{
         //interpreter.setIn(System.in);
         interpreter.setOut(System.out);
         interpreter.setErr(System.err);
-        interpreter.execfile(mainFile);
+
+        runTests(new File(baseDirectory + "/src/test/jython/" + groupId.replace(".", "/") + "/" + artifactId + "/test"));
     }
+
+    public void runTests(File directory){
+        for(File file : directory.listFiles()){
+            if(file.isDirectory()){
+                runTests(file);
+            }else if(file.getName().substring(file.getName().length()-3).equals(".py")){
+                System.out.println("Running tests in " + file.getAbsolutePath().replace(baseDirectory + "/src/test/jython/", "").replace(".py", "").replace(File.separator, ""));
+                interpreter.execfile(file.getAbsolutePath());
+                Matcher matcher = Pattern.compile("def\\s+(test.+\\(\\)):[\r|\n|\r\n]");
+                while(matcher.find()){
+                    String input = "";
+                    input += "try:\n";
+                    input += "    " + matcher.group() + "\n";
+                    input += "except AssertionError:\n";
+                    input += "    print " + matcher.group() + " failed\n";
+                    interpreter.exec(input);
+                }
+            }
+        }
+    }               
 }
