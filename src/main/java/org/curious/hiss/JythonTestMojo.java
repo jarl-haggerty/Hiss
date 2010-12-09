@@ -51,18 +51,18 @@ import org.apache.maven.artifact.Artifact;
 public class JythonTestMojo extends JythonAbstractMojo{ 
     public void execute() throws MojoExecutionException, MojoFailureException{
         Properties properties = new Properties();
-
         if(pythonPath == null){
-            properties.setProperty("python.path", baseDirectory + "/src/main/jython");
-        }else{
-            properties.setProperty("python.path", baseDirectory + "/src/main/jython" + File.pathSeparator + pythonPath);
+            pythonPath = "";
         }
+
+        properties.setProperty("python.path", baseDirectory + "/src/main/jython/" + groupId.replace(".", "/") + File.pathSeparator + pythonPath)
             
         if(pythonArgs == null){
-            PythonInterpreter.initialize(System.getProperties(), properties, new String[]{});
-        }else{
-            PythonInterpreter.initialize(System.getProperties(), properties, pythonArgs);
+            pythonArgs = new String[]{};
         }
+
+        PythonInterpreter.initialize(System.getProperties(), properties, pythonArgs);
+
         PythonInterpreter interpreter = new PythonInterpreter();
         //interpreter.setIn(System.in);
         interpreter.setOut(System.out);

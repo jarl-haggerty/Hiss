@@ -37,28 +37,26 @@ public class JythonRunMojo extends JythonAbstractMojo{
         Properties properties = new Properties();
 
         if(pythonPath == null){
-            properties.setProperty("python.path", baseDirectory + "/src/main/jython");
-        }else{
-            properties.setProperty("python.path", baseDirectory + "/src/main/jython" + File.pathSeparator + pythonPath);
+            pythonPath = ""
         }
+        properties.setProperty("python.path", baseDirectory + "/src/main/jython/" + groupId.replace(".", "/") + File.pathSeparator + pythonPath);
 
         String mainFile;
         if(pythonMain == null){
             mainFile = baseDirectory + "/src/main/jython/" + groupId.replace(".", "/") + "/" + artifactId + "/main.py";
-            System.out.println("Python main was not specified.  Infering pythonMain as " + groupId + "." + artifactId + ".main");
+            System.out.println("Python main was not specified.  Infering pythonMain as " + artifactId + ".main");
         }else{
             mainFile = baseDirectory + "/src/main/jython/" + pythonMain.replace(".", "/") + ".py";
         }
-
         if(!new File(mainFile).exists()){
             throw new MojoFailureException("No module named " + pythonMain);
         }
-            
+
         if(pythonArgs == null){
-            PythonInterpreter.initialize(System.getProperties(), properties, new String[]{});
-        }else{
-            PythonInterpreter.initialize(System.getProperties(), properties, pythonArgs);
+            pythonArgs = new String[]{};
         }
+        PythonInterpreter.initialize(System.getProperties(), properties, pythonArgs);
+
         PythonInterpreter interpreter = new PythonInterpreter();
         //interpreter.setIn(System.in);
         interpreter.setOut(System.out);

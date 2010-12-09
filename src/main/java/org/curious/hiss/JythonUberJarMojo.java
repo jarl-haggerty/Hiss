@@ -51,7 +51,7 @@ public class JythonUberJarMojo extends JythonAbstractMojo{
             pythonPath = "";
         }
             
-        addPythonPath(baseDirectory + "/src/main/jython/" + groupId.substring(0, groupId.indexOf(".")) + File.pathSeparator + pythonPath);
+        addPythonPath(baseDirectory + "/src/main/jython/" + groupId.replace(".", "/") + "/" + artifactId + File.pathSeparator + pythonPath);
 
         if(pythonMain != null){
             createMain(pythonPath, pythonMain);
