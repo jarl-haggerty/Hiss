@@ -47,7 +47,7 @@ import org.apache.maven.artifact.Artifact;
  */
 public class JythonJarMojo extends JythonAbstractMojo{ 
     public void execute() throws MojoExecutionException, MojoFailureException{
-        addPythonPath(baseDirectory + "/src/main/jython/" + groupId.replace(".", "/") + "/" + artifactId);
+        addPythonPath(baseDirectory + "/src/main/jython/" + artifactId);
 
         if(pythonMain != null){
             createMain("", pythonMain);

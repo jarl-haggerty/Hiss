@@ -37,13 +37,13 @@ public class JythonRunMojo extends JythonAbstractMojo{
         Properties properties = new Properties();
 
         if(pythonPath == null){
-            pythonPath = ""
+            pythonPath = "";
         }
-        properties.setProperty("python.path", baseDirectory + "/src/main/jython/" + groupId.replace(".", "/") + File.pathSeparator + pythonPath);
+        properties.setProperty("python.path", baseDirectory + "/src/main/jython" + File.pathSeparator + pythonPath);
 
         String mainFile;
         if(pythonMain == null){
-            mainFile = baseDirectory + "/src/main/jython/" + groupId.replace(".", "/") + "/" + artifactId + "/main.py";
+            mainFile = baseDirectory + "/src/main/jython/" + artifactId + "/main.py";
             System.out.println("Python main was not specified.  Infering pythonMain as " + artifactId + ".main");
         }else{
             mainFile = baseDirectory + "/src/main/jython/" + pythonMain.replace(".", "/") + ".py";

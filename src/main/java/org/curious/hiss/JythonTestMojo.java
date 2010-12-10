@@ -55,7 +55,7 @@ public class JythonTestMojo extends JythonAbstractMojo{
             pythonPath = "";
         }
 
-        properties.setProperty("python.path", baseDirectory + "/src/main/jython/" + groupId.replace(".", "/") + File.pathSeparator + pythonPath)
+        properties.setProperty("python.path", baseDirectory + "/src/main/jython" + File.pathSeparator + pythonPath);
             
         if(pythonArgs == null){
             pythonArgs = new String[]{};
