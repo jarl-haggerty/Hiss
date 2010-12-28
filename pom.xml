@@ -23,8 +23,31 @@ along with Hiss.  If not, see <http://www.gnu.org/licenses/>.
   <groupId>org.curious</groupId>
   <artifactId>hiss</artifactId>
   <packaging>maven-plugin</packaging>
-  <name>Jython Maven Plugin</name>
+  <name>Hiss</name>
+  <description>Plugin for managing Jython projects with Maven</description>
   <version>1.0.0</version>
+  <licenses>
+    <license>
+      <name>Apache 2</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <id>jarl-haggerty</id>
+      <name>Jarl Haggerty</name>
+      <email>jarlh@email.arizona.edu</email>
+      <url></url>
+      <organization>Curious Cat</organization>
+      <organizationUrl></organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-7</timezone>
+    </developer>
+  </developers>
   <build>
     <plugins>
       <plugin>
