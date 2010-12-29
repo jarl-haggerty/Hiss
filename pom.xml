@@ -46,7 +46,7 @@ limitations under the License.
       <timezone>-7</timezone>
     </developer>
   </developers>
-  <build>
+  <!--<build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -57,7 +57,7 @@ limitations under the License.
         </configuration>
       </plugin>
     </plugins>
-  </build>
+  </build>-->
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>

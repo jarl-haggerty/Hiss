@@ -55,9 +55,9 @@ public class JythonUberJarMojo extends JythonAbstractMojo{
             createMain(pythonPath, pythonMain);
         }
 
-        Iterator<Artifact> artifactIterator = pluginArftifacts.iterator();
+        Iterator artifactIterator = pluginArftifacts.iterator();
         while(artifactIterator.hasNext()){
-            Artifact artifact = artifactIterator.next();
+            Artifact artifact = (Artifact)artifactIterator.next();
             if (artifact.getGroupId().equals("org.python") && artifact.getArtifactId().equals("jython")){
                 try{
                     Runtime.getRuntime().exec("jar xf " + artifact.getFile().getAbsolutePath() + " org com").waitFor();

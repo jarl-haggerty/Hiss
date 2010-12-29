@@ -70,7 +70,9 @@ public class JythonTestMojo extends JythonAbstractMojo{
     }
 
     public void runTests(File directory, PythonInterpreter interpreter){
-        for(File file : directory.listFiles()){
+        File[] files = directory.listFiles();
+        for(int i = 0;i < files.length;i++){
+            File file = files[i];
             if(file.isDirectory()){
                 runTests(file, interpreter);
             }else if(file.getName().substring(file.getName().length()-3).equals(".py")){

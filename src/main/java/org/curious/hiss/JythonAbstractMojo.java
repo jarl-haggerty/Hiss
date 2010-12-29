@@ -56,7 +56,7 @@ public abstract class JythonAbstractMojo extends AbstractMojo{
      * @required
      * @readonly
      */
-    protected List<Artifact> pluginArftifacts;
+    protected List pluginArftifacts;
 
     /**
      * @parameter default-value="${basedir}"
@@ -102,7 +102,9 @@ public abstract class JythonAbstractMojo extends AbstractMojo{
     protected String[] pythonArgs;
 
     public void addPythonPath(String pythonPath){
-        for(String place : pythonPath.split(File.pathSeparator)){
+        String[] places = pythonPath.split(File.pathSeparator);
+        for(int i = 0;i < places.length;i++){
+            String place = places[i];
             File from = new File(place);
             try{
                 copyDirectory(from, new File(from.getName()));
@@ -131,9 +133,11 @@ public abstract class JythonAbstractMojo extends AbstractMojo{
 
             mainSource += "    String jar = ClassLoader.getSystemResource(\"Main.class\").toString().replaceAll(\"jar:file:/|/Main.class|!\", \"\");\n";
             mainSource += "    pythonPath += java.io.File.pathSeparator + jar;\n";
-            for(String place : pythonPath.split(File.pathSeparator)){
-                if(!place.isEmpty()){
-            mainSource += "    pythonPath += java.io.File.pathSeparator + jar + \"/" + new File(place).getName() + "\";\n";
+            String[] places = pythonPath.split(File.pathSeparator);
+            for(int i = 0;i < places.length;i++){
+                String place = places[i];
+                if(place.length() != 0){
+                    mainSource += "    pythonPath += java.io.File.pathSeparator + jar + \"/" + new File(place).getName() + "\";\n";
                 }
             }
 
