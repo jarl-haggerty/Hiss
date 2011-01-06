@@ -56,10 +56,6 @@ Example src directory:
 src
  main
   jython
-   org
+   example
     __init__.py
-    curious
-      __init__.py
-      example
-        __init__.py
-        main.py
+    main.py
