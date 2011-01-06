@@ -24,6 +24,12 @@ import java.io.File;
 import java.util.List;
 import java.util.Properties;
 
+import java.lang.reflect.Method;
+
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.net.MalformedURLException;
+
 import org.python.util.PythonInterpreter;
 
 /**
@@ -33,6 +39,16 @@ import org.python.util.PythonInterpreter;
 public class JythonRunMojo extends JythonAbstractMojo{ 
     public void execute() throws MojoExecutionException, MojoFailureException{ 
         Properties properties = new Properties();
+        URLClassLoader systemClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader(); 
+        Class classLoaderClass = URLClassLoader.class; 
+        
+        try { 
+            Method method = classLoaderClass.getDeclaredMethod("addURL", new Class[]{URL.class}); 
+            method.setAccessible(true); 
+            method.invoke(systemClassLoader, new Object[]{new File(baseDirectory + "/src/main/resources/").toURI().toURL()}); 
+        } catch (Exception e) { 
+            e.printStackTrace(); 
+        } 
 
         if(pythonPath == null){
             pythonPath = "";
