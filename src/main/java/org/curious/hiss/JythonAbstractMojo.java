@@ -188,7 +188,7 @@ public abstract class JythonAbstractMojo extends AbstractMojo{
                 copyDirectory(new File(sourceLocation, children[i]),
                               new File(targetLocation, children[i]));
             }
-        }else{
+        }else if(!sourceLocation.isHidden()){
             InputStream in = new FileInputStream(sourceLocation);
             OutputStream out = new FileOutputStream(targetLocation);
             

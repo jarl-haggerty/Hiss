@@ -92,15 +92,15 @@
       </configuration>
     </mojo>
     <mojo>
-      <goal>test</goal>
-      <description>Goal for executing tests written in Jython.</description>
+      <goal>run</goal>
+      <description>Goal for running the project</description>
       <requiresDirectInvocation>false</requiresDirectInvocation>
       <requiresProject>true</requiresProject>
       <requiresReports>false</requiresReports>
       <aggregator>false</aggregator>
       <requiresOnline>false</requiresOnline>
       <inheritedByDefault>true</inheritedByDefault>
-      <implementation>org.curious.hiss.JythonTestMojo</implementation>
+      <implementation>org.curious.hiss.JythonRunMojo</implementation>
       <language>java</language>
       <instantiationStrategy>per-lookup</instantiationStrategy>
       <executionStrategy>once-per-session</executionStrategy>
@@ -257,15 +257,15 @@
       </configuration>
     </mojo>
     <mojo>
-      <goal>run</goal>
-      <description>Goal for running the project</description>
+      <goal>test</goal>
+      <description>Goal for executing tests written in Jython.</description>
       <requiresDirectInvocation>false</requiresDirectInvocation>
       <requiresProject>true</requiresProject>
       <requiresReports>false</requiresReports>
       <aggregator>false</aggregator>
       <requiresOnline>false</requiresOnline>
       <inheritedByDefault>true</inheritedByDefault>
-      <implementation>org.curious.hiss.JythonRunMojo</implementation>
+      <implementation>org.curious.hiss.JythonTestMojo</implementation>
       <language>java</language>
       <instantiationStrategy>per-lookup</instantiationStrategy>
       <executionStrategy>once-per-session</executionStrategy>
