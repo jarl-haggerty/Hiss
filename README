@@ -55,7 +55,7 @@ Example src directory:
 
 src
  main
-  jython
+  python
    example
     __init__.py
     main.py

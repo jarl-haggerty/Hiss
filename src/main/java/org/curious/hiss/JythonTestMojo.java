@@ -53,7 +53,7 @@ public class JythonTestMojo extends JythonAbstractMojo{
             pythonPath = "";
         }
 
-        properties.setProperty("python.path", baseDirectory + "/src/main/jython" + File.pathSeparator + pythonPath);
+        properties.setProperty("python.path", baseDirectory + "/src/main/python" + File.pathSeparator + pythonPath);
             
         if(pythonArgs == null){
             pythonArgs = new String[]{};
@@ -62,11 +62,11 @@ public class JythonTestMojo extends JythonAbstractMojo{
         PythonInterpreter.initialize(System.getProperties(), properties, pythonArgs);
 
         PythonInterpreter interpreter = new PythonInterpreter();
-        //interpreter.setIn(System.in);
+        interpreter.setIn(System.in);
         interpreter.setOut(System.out);
         interpreter.setErr(System.err);
 
-        runTests(new File(baseDirectory + "/src/test/jython/" + groupId.replace(".", "/") + "/" + artifactId), interpreter);
+        runTests(new File(baseDirectory + "/src/test/python/" + groupId.replace(".", "/") + "/" + artifactId), interpreter);
     }
 
     public void runTests(File directory, PythonInterpreter interpreter){
@@ -77,7 +77,7 @@ public class JythonTestMojo extends JythonAbstractMojo{
                 runTests(file, interpreter);
             }else if(file.getName().substring(file.getName().length()-3).equals(".py")){
                 try{
-                    System.out.println("\nRunning tests in " + file.getAbsolutePath().replace(baseDirectory + "/src/test/jython/", "").replace(".py", "").replace(File.separator, ".") + "\n");
+                    System.out.println("\nRunning tests in " + file.getAbsolutePath().replace(baseDirectory + "/src/test/python/", "").replace(".py", "").replace(File.separator, ".") + "\n");
                     BufferedReader reader = new BufferedReader(new FileReader(file));
                     String source = "", line;
                     while((line = reader.readLine()) != null){

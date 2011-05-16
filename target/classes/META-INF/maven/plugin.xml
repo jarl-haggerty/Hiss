@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin>
+  <name>Hiss</name>
   <description>Plugin for managing Jython projects with Maven</description>
   <groupId>org.curious</groupId>
   <artifactId>hiss</artifactId>
@@ -8,6 +9,89 @@
   <isolatedRealm>false</isolatedRealm>
   <inheritedByDefault>true</inheritedByDefault>
   <mojos>
+    <mojo>
+      <goal>run</goal>
+      <description>Goal for running the project</description>
+      <requiresDirectInvocation>false</requiresDirectInvocation>
+      <requiresProject>true</requiresProject>
+      <requiresReports>false</requiresReports>
+      <aggregator>false</aggregator>
+      <requiresOnline>false</requiresOnline>
+      <inheritedByDefault>true</inheritedByDefault>
+      <implementation>org.curious.hiss.JythonRunMojo</implementation>
+      <language>java</language>
+      <instantiationStrategy>per-lookup</instantiationStrategy>
+      <executionStrategy>once-per-session</executionStrategy>
+      <threadSafe>false</threadSafe>
+      <parameters>
+        <parameter>
+          <name>artifactId</name>
+          <type>java.lang.String</type>
+          <required>true</required>
+          <editable>false</editable>
+          <description></description>
+        </parameter>
+        <parameter>
+          <name>baseDirectory</name>
+          <type>java.lang.String</type>
+          <required>true</required>
+          <editable>false</editable>
+          <description></description>
+        </parameter>
+        <parameter>
+          <name>groupId</name>
+          <type>java.lang.String</type>
+          <required>true</required>
+          <editable>false</editable>
+          <description></description>
+        </parameter>
+        <parameter>
+          <name>pluginArftifacts</name>
+          <type>java.util.List</type>
+          <required>true</required>
+          <editable>false</editable>
+          <description></description>
+        </parameter>
+        <parameter>
+          <name>pythonArgs</name>
+          <type>java.lang.String[]</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description></description>
+        </parameter>
+        <parameter>
+          <name>pythonMain</name>
+          <type>java.lang.String</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description></description>
+        </parameter>
+        <parameter>
+          <name>pythonPath</name>
+          <type>java.lang.String</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description></description>
+        </parameter>
+        <parameter>
+          <name>version</name>
+          <type>java.lang.String</type>
+          <required>true</required>
+          <editable>false</editable>
+          <description></description>
+        </parameter>
+      </parameters>
+      <configuration>
+        <artifactId implementation="java.lang.String" default-value="${project.artifactId}"/>
+        <baseDirectory implementation="java.lang.String" default-value="${basedir}"/>
+        <groupId implementation="java.lang.String" default-value="${project.groupId}"/>
+        <pluginArftifacts implementation="java.util.List" default-value="${plugin.artifacts}"/>
+        <pythonArgs implementation="java.lang.String[]" default-value="${python.args}"/>
+        <pythonMain implementation="java.lang.String">${python.main}</pythonMain>
+        <pythonPath implementation="java.lang.String">${python.path}</pythonPath>
+        <version implementation="java.lang.String" default-value="${project.version}"/>
+      </configuration>
+    </mojo>
     <mojo>
       <goal>jar</goal>
       <description>Goal for creating a jar with just the Jython source files and possibly a main class and __run__.py built into it.</description>
@@ -22,6 +106,7 @@
       <language>java</language>
       <instantiationStrategy>per-lookup</instantiationStrategy>
       <executionStrategy>once-per-session</executionStrategy>
+      <threadSafe>false</threadSafe>
       <parameters>
         <parameter>
           <name>artifactId</name>
@@ -81,29 +166,30 @@
         </parameter>
       </parameters>
       <configuration>
+        <artifactId implementation="java.lang.String" default-value="${project.artifactId}"/>
+        <baseDirectory implementation="java.lang.String" default-value="${basedir}"/>
         <groupId implementation="java.lang.String" default-value="${project.groupId}"/>
         <pluginArftifacts implementation="java.util.List" default-value="${plugin.artifacts}"/>
+        <pythonArgs implementation="java.lang.String[]" default-value="${python.args}"/>
         <pythonMain implementation="java.lang.String">${python.main}</pythonMain>
         <pythonPath implementation="java.lang.String">${python.path}</pythonPath>
-        <pythonArgs implementation="java.lang.String[]" default-value="${python.args}"/>
-        <baseDirectory implementation="java.lang.String" default-value="${basedir}"/>
         <version implementation="java.lang.String" default-value="${project.version}"/>
-        <artifactId implementation="java.lang.String" default-value="${project.artifactId}"/>
       </configuration>
     </mojo>
     <mojo>
-      <goal>run</goal>
-      <description>Goal for running the project</description>
+      <goal>test</goal>
+      <description>Goal for executing tests written in Jython.</description>
       <requiresDirectInvocation>false</requiresDirectInvocation>
       <requiresProject>true</requiresProject>
       <requiresReports>false</requiresReports>
       <aggregator>false</aggregator>
       <requiresOnline>false</requiresOnline>
       <inheritedByDefault>true</inheritedByDefault>
-      <implementation>org.curious.hiss.JythonRunMojo</implementation>
+      <implementation>org.curious.hiss.JythonTestMojo</implementation>
       <language>java</language>
       <instantiationStrategy>per-lookup</instantiationStrategy>
       <executionStrategy>once-per-session</executionStrategy>
+      <threadSafe>false</threadSafe>
       <parameters>
         <parameter>
           <name>artifactId</name>
@@ -163,14 +249,14 @@
         </parameter>
       </parameters>
       <configuration>
+        <artifactId implementation="java.lang.String" default-value="${project.artifactId}"/>
+        <baseDirectory implementation="java.lang.String" default-value="${basedir}"/>
         <groupId implementation="java.lang.String" default-value="${project.groupId}"/>
         <pluginArftifacts implementation="java.util.List" default-value="${plugin.artifacts}"/>
+        <pythonArgs implementation="java.lang.String[]" default-value="${python.args}"/>
         <pythonMain implementation="java.lang.String">${python.main}</pythonMain>
         <pythonPath implementation="java.lang.String">${python.path}</pythonPath>
-        <pythonArgs implementation="java.lang.String[]" default-value="${python.args}"/>
-        <baseDirectory implementation="java.lang.String" default-value="${basedir}"/>
         <version implementation="java.lang.String" default-value="${project.version}"/>
-        <artifactId implementation="java.lang.String" default-value="${project.artifactId}"/>
       </configuration>
     </mojo>
     <mojo>
@@ -187,6 +273,7 @@
       <language>java</language>
       <instantiationStrategy>per-lookup</instantiationStrategy>
       <executionStrategy>once-per-session</executionStrategy>
+      <threadSafe>false</threadSafe>
       <parameters>
         <parameter>
           <name>artifactId</name>
@@ -246,96 +333,14 @@
         </parameter>
       </parameters>
       <configuration>
+        <artifactId implementation="java.lang.String" default-value="${project.artifactId}"/>
+        <baseDirectory implementation="java.lang.String" default-value="${basedir}"/>
         <groupId implementation="java.lang.String" default-value="${project.groupId}"/>
         <pluginArftifacts implementation="java.util.List" default-value="${plugin.artifacts}"/>
+        <pythonArgs implementation="java.lang.String[]" default-value="${python.args}"/>
         <pythonMain implementation="java.lang.String">${python.main}</pythonMain>
         <pythonPath implementation="java.lang.String">${python.path}</pythonPath>
-        <pythonArgs implementation="java.lang.String[]" default-value="${python.args}"/>
-        <baseDirectory implementation="java.lang.String" default-value="${basedir}"/>
         <version implementation="java.lang.String" default-value="${project.version}"/>
-        <artifactId implementation="java.lang.String" default-value="${project.artifactId}"/>
-      </configuration>
-    </mojo>
-    <mojo>
-      <goal>test</goal>
-      <description>Goal for executing tests written in Jython.</description>
-      <requiresDirectInvocation>false</requiresDirectInvocation>
-      <requiresProject>true</requiresProject>
-      <requiresReports>false</requiresReports>
-      <aggregator>false</aggregator>
-      <requiresOnline>false</requiresOnline>
-      <inheritedByDefault>true</inheritedByDefault>
-      <implementation>org.curious.hiss.JythonTestMojo</implementation>
-      <language>java</language>
-      <instantiationStrategy>per-lookup</instantiationStrategy>
-      <executionStrategy>once-per-session</executionStrategy>
-      <parameters>
-        <parameter>
-          <name>artifactId</name>
-          <type>java.lang.String</type>
-          <required>true</required>
-          <editable>false</editable>
-          <description></description>
-        </parameter>
-        <parameter>
-          <name>baseDirectory</name>
-          <type>java.lang.String</type>
-          <required>true</required>
-          <editable>false</editable>
-          <description></description>
-        </parameter>
-        <parameter>
-          <name>groupId</name>
-          <type>java.lang.String</type>
-          <required>true</required>
-          <editable>false</editable>
-          <description></description>
-        </parameter>
-        <parameter>
-          <name>pluginArftifacts</name>
-          <type>java.util.List</type>
-          <required>true</required>
-          <editable>false</editable>
-          <description></description>
-        </parameter>
-        <parameter>
-          <name>pythonArgs</name>
-          <type>java.lang.String[]</type>
-          <required>false</required>
-          <editable>true</editable>
-          <description></description>
-        </parameter>
-        <parameter>
-          <name>pythonMain</name>
-          <type>java.lang.String</type>
-          <required>false</required>
-          <editable>true</editable>
-          <description></description>
-        </parameter>
-        <parameter>
-          <name>pythonPath</name>
-          <type>java.lang.String</type>
-          <required>false</required>
-          <editable>true</editable>
-          <description></description>
-        </parameter>
-        <parameter>
-          <name>version</name>
-          <type>java.lang.String</type>
-          <required>true</required>
-          <editable>false</editable>
-          <description></description>
-        </parameter>
-      </parameters>
-      <configuration>
-        <groupId implementation="java.lang.String" default-value="${project.groupId}"/>
-        <pluginArftifacts implementation="java.util.List" default-value="${plugin.artifacts}"/>
-        <pythonMain implementation="java.lang.String">${python.main}</pythonMain>
-        <pythonPath implementation="java.lang.String">${python.path}</pythonPath>
-        <pythonArgs implementation="java.lang.String[]" default-value="${python.args}"/>
-        <baseDirectory implementation="java.lang.String" default-value="${basedir}"/>
-        <version implementation="java.lang.String" default-value="${project.version}"/>
-        <artifactId implementation="java.lang.String" default-value="${project.artifactId}"/>
       </configuration>
     </mojo>
   </mojos>
@@ -362,7 +367,7 @@
       <groupId>org.python</groupId>
       <artifactId>jython</artifactId>
       <type>jar</type>
-      <version>2.5.1</version>
+      <version>2.5.2</version>
     </dependency>
     <dependency>
       <groupId>javassist</groupId>
